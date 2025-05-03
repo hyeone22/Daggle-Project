@@ -1,10 +1,17 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './App.css';
+import { RouterProvider } from 'react-router-dom';
+import router from './utils/AppRouter';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
-      <div className="font-bold">안녕</div>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <div className="w-full h-full flex flex-col bg-[#F9FAFA]">
+        <RouterProvider router={router} />
+      </div>
+    </QueryClientProvider>
   );
 }
 
