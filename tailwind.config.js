@@ -56,6 +56,9 @@ export default {
         tablet: { min: '641px', max: '1024px' },
         desktop: { min: '1025px' },
       },
+      fontFamily: {
+        pretendard: ['Pretendard', 'sans-serif'],
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
