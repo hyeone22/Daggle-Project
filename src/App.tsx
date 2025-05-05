@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="w-full h-full flex flex-col bg-white sm:bg-[#F9FAFA]">
+      <div className="w-full h-full flex flex-col">
         <RouterProvider router={router} />
       </div>
     </QueryClientProvider>

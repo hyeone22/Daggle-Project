@@ -150,7 +150,7 @@ function Carousel() {
         {[...slides, ...slides, ...slides].map((slide, index) => (
           <div
             key={index}
-            className="w-[319px] h-[391px] mx-2 flex-shrink-0 rounded-[20px] overflow-hidden relative group"
+            className="mobile:w-full w-[319px] h-[391px] mx-2 flex-shrink-0 rounded-[20px] overflow-hidden relative group"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
@@ -163,7 +163,7 @@ function Carousel() {
               alt={`Slide ${index}`}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 flex flex-col justify-between p-6 text-white">
+            <div className="absolute inset-0 flex flex-col justify-between p-6 text-white cursor-pointer">
               <h3 className="text-2xl font-bold">{slide.title}</h3>
               <div className="flex flex-col gap-2 border-t border-[#D6D7DC] pt-4">
                 <p className="text-[16px] line-clamp-2">{slide.description}</p>
