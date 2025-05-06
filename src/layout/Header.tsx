@@ -3,6 +3,7 @@ import Status from '@/assets/Status_Icons.svg';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 // 모바일 Status
 const StatusBar = () => (
@@ -71,7 +72,9 @@ const SlideMenu = ({
 
 function Header() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isMobile = useMediaQuery('(max-width: 640px)'); // isMobile은 화면 너비가 640px 이하일 때 true, 그 외에는 false
+  const isMobile = useMediaQuery('(max-width: 640px)');
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -87,24 +90,28 @@ function Header() {
     <header className="bg-white w-full">
       <StatusBar />
       <div className="h-20 mobile:h-[50px] w-full px-[16px] tablet:px-[30px] desktop:px-[120px]">
-        <div className="h-full flex justify-between items-center">
+        <div className="h-full flex justify-between items-center ">
           <div className="flex items-center">
             <img
               src={Logo}
               className="h-10 w-16 cursor-pointer mobile:hidden tablet:block desktop:block"
               alt="Daggle Logo"
             />
-            <MobileMenu toggleMenu={toggleMenu} />
+            {isHome && <MobileMenu toggleMenu={toggleMenu} />}
           </div>
           <DesktopLogin />
         </div>
       </div>
-      <SlideMenu isOpen={isOpen} toggleMenu={toggleMenu} />
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-[#424242] z-40 mobile:block tablet:hidden desktop:hidden"
-          onClick={toggleMenu}
-        />
+      {isHome && (
+        <>
+          <SlideMenu isOpen={isOpen} toggleMenu={toggleMenu} />
+          {isOpen && (
+            <div
+              className="fixed inset-0 bg-[#424242] z-40 mobile:block tablet:hidden desktop:hidden"
+              onClick={toggleMenu}
+            />
+          )}
+        </>
       )}
     </header>
   );
