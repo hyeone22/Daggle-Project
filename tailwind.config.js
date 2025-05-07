@@ -56,6 +56,18 @@ export default {
         tablet: { min: '641px', max: '1024px' },
         desktop: { min: '1025px' },
       },
+      fontFamily: {
+        pretendard: ['Pretendard', 'sans-serif'],
+      },
+      keyframes: {
+        scroll: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+      },
+      animation: {
+        scroll: 'scroll 20s linear infinite',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
