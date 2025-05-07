@@ -3,6 +3,7 @@ import {
   CreatePostRequest,
   CreatePostResponse,
 } from '@/interface/BoardInterface';
+import { useAuthStore } from '@/store/useAuthStore';
 
 /**
  * 게시글 목록을 조회하는 API 함수
@@ -81,7 +82,12 @@ export const postBoardWrite = async (
 export const getBoardDetail = async (
   id: string
 ): Promise<CreatePostResponse> => {
-  const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {});
+  const accessToken = useAuthStore.getState().accessToken;
+  const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   if (!response.ok) {
     throw new Error('게시글 상세 정보를 불러오는데 실패했습니다.');
