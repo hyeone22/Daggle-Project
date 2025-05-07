@@ -3,6 +3,7 @@ import Layout from '@/layout/Layout';
 import Landing from '@/pages/Landing';
 import Write from '@/pages/Write';
 import { createBrowserRouter } from 'react-router-dom';
+import Login from '@/pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
       {
         // 로그인
         path: '/login',
-        element: '',
+        element: <Login />,
         errorElement: '',
       },
       {
