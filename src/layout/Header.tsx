@@ -1,6 +1,7 @@
 import Logo from '/public/logo.svg';
 import Status from '@/assets/Status_Icons.svg';
 import useMediaQuery from '@/hooks/useMediaQuery';
+import clsx from 'clsx';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -75,6 +76,9 @@ function Header() {
   const isMobile = useMediaQuery('(max-width: 640px)');
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const isLogin = location.pathname === '/login';
+
+  const isMobileHeaderVisible = isHome || isLogin;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -89,7 +93,16 @@ function Header() {
   return (
     <header className="bg-white w-full">
       <StatusBar />
-      <div className="h-20 mobile:h-[50px] w-full px-[16px] tablet:px-[30px] desktop:px-[120px]">
+      <div
+        className={clsx(
+          'w-full px-[16px] tablet:px-[30px] desktop:px-[120px]',
+          'tablet:h-20 desktop:h-20',
+          {
+            'mobile:h-[50px]': isMobileHeaderVisible,
+            'mobile:h-0': !isMobileHeaderVisible,
+          }
+        )}
+      >
         <div className="h-full flex justify-between items-center ">
           <div className="flex items-center">
             <img
