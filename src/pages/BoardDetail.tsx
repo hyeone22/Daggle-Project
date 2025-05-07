@@ -1,13 +1,15 @@
+import { useDetailBoard } from '@/action/get-detail';
 import Comment from '@/assets/comment.svg';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { formatDate } from '@/lib/date';
 import { ChevronLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function BoardDetail() {
-  // const { id } = useParams();
-  // const { data, isPending, error } = useDetailBoard(id || '');
-  // console.log('data', data);
+  const { id } = useParams();
+  const { data, isPending, error } = useDetailBoard(id || '');
+  console.log('data', data);
   const navigate = useNavigate();
 
   return (
@@ -24,21 +26,21 @@ function BoardDetail() {
           </div>
           {/* 정보 */}
           <div className="flex flex-col p-6 mobile:p-0 mobile:px-4 gap-6 mobile:gap-2">
-            <h1 className="text-2xl mobile:text-lg font-bold">제목</h1>
+            <h1 className="text-2xl mobile:text-lg font-bold">{data?.title}</h1>
             <div className="flex items-center gap-2 text-[#A7A9B4] text-base mobile:text-sm">
-              <p>닉네임</p>
+              <p>{data?.author.nickname}</p>
               <span>|</span>
-              <p>날짜</p>
+              {data?.createdAt && <p>{formatDate(data.createdAt)}</p>}
             </div>
           </div>
 
           {/* 본문 */}
           <div className="flex flex-col w-full border-t border-[#EEEFF1] mobile:border-0">
             <div className="p-6 mobile:p-0 mobile:px-4 flex flex-col justify-between">
-              <p className="whitespace-pre-wrap">본문</p>
-              <div className="flex gap-2">
+              <p className="whitespace-pre-wrap">{data?.content}</p>
+              <div className="flex gap-2 mt-4">
                 <img src={Comment} />
-                <span>개</span>
+                <span className="text-[#474953]">{data?.commentCount}개</span>
               </div>
             </div>
           </div>
