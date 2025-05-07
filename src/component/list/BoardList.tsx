@@ -5,8 +5,10 @@ import Comment from '@/assets/comment.svg';
 import { useBoardList } from '@/action/get-post';
 import { formatDate } from '@/lib/date';
 import pencil from '@/assets/pencil.svg';
+import { useNavigate } from 'react-router-dom';
 
 function BoardList() {
+  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const {
@@ -67,6 +69,10 @@ function BoardList() {
   // 모든 페이지의 아이템을 하나의 배열로 합치기
   const allItems = data.pages.flatMap((page) => page.items);
 
+  const handleItemClick = (id: string) => {
+    navigate(`/${id}`);
+  };
+
   return (
     <div className="w-full relative">
       {isMobile ? (
@@ -91,7 +97,8 @@ function BoardList() {
           {allItems.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col items-start gap-2 px-6 py-4 border-b"
+              className="flex flex-col items-start gap-2 px-6 py-4 border-b cursor-pointer"
+              onClick={() => handleItemClick(item.id)}
             >
               <div className="space-y-1">
                 <h3 className="text-[16px] font-medium">{item.title}</h3>
@@ -112,7 +119,8 @@ function BoardList() {
             {currentItems.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between gap-0 px-6 py-4 border-b"
+                className="flex items-center justify-between gap-0 px-6 py-4 border-b cursor-pointer"
+                onClick={() => handleItemClick(item.id)}
               >
                 <div className="space-y-1">
                   <h3 className="text-lg font-medium">{item.title}</h3>

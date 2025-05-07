@@ -1,3 +1,4 @@
+import BoardDetail from '@/pages/BoardDetail';
 import Layout from '@/layout/Layout';
 import Landing from '@/pages/Landing';
 import Write from '@/pages/Write';
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
       {
         // 커뮤니티 상세페이지(여기는 api의 id 값으로 설정될 것 같은데 주소를 어떻게 설정해야할까?)
         path: '/:id',
-        element: '',
+        element: <BoardDetail />,
         errorElement: '',
       },
       {

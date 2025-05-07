@@ -1,4 +1,4 @@
-import { useWriteBoard } from '@/action/post-Write';
+import { useWriteBoard } from '@/action/post-write';
 import WriteForm, { WriteFormRef } from '@/component/form/WriteForm';
 import { Button } from '@/components/ui/button';
 import { useRef } from 'react';
@@ -23,7 +23,7 @@ function Write() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-12 w-full h-screen bg-[#F9FAFA] mobile:bg-white">
+    <div className="flex flex-col items-center gap-12 w-full bg-[#F9FAFA] mobile:bg-white">
       <WriteForm onSubmit={handleSubmit} ref={formRef} />
       <Button
         size="default"
@@ -31,6 +31,7 @@ function Write() {
         className="mobile:hidden"
         onClick={handleButtonClick}
         disabled={isPending}
+        text="등록하기"
       >
         {isPending ? '등록 중...' : '등록하기'}
       </Button>

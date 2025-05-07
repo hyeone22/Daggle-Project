@@ -68,3 +68,24 @@ export const postBoardWrite = async (
   const result: CreatePostResponse = await response.json();
   return result;
 };
+
+/**
+ * 게시글 상세 정보를 조회하는 API
+ * @param id - 게시글 ID
+ * @returns 게시글 상세 정보
+ * @throws API 호출 실패 시 에러 발생
+ * @example
+ * const { data } = await getBoardDetail("1");
+ * 게시글 생성 Response와 타입이 같음
+ */
+export const getBoardDetail = async (
+  id: string
+): Promise<CreatePostResponse> => {
+  const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {});
+
+  if (!response.ok) {
+    throw new Error('게시글 상세 정보를 불러오는데 실패했습니다.');
+  }
+
+  return response.json();
+};

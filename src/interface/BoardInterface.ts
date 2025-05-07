@@ -34,7 +34,7 @@ export interface Author {
   id: string;
   nickname: string;
 }
-
+// 게시글 생성 Response와 게시글 Detail 조회가 같음
 export interface CreatePostResponse {
   id: string;
   createdAt: string;
