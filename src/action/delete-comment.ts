@@ -20,6 +20,10 @@ export const useDeleteComment = () => {
       queryClient.invalidateQueries({
         queryKey: ['commentList', variables.postId], // 삭제된 댓글을 반영한 새로운 데이터로 갱신
       });
+      // 게시글 상세 정보도 갱신하여 댓글 수 업데이트
+      queryClient.invalidateQueries({
+        queryKey: ['boardDetail', variables.postId],
+      });
     },
     onError: (error) => {
       console.error('댓글 삭제 오류', error);
