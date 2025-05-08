@@ -1,11 +1,25 @@
 import { useWriteBoard } from '@/action/post-write';
 import WriteForm, { WriteFormRef } from '@/component/form/WriteForm';
 import { Button } from '@/components/ui/button';
-import { useRef } from 'react';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Write() {
   const formRef = useRef<WriteFormRef>(null);
   const { mutate: writeBoard, isPending } = useWriteBoard();
+  const navigate = useNavigate();
+  const accessToken = useAuthStore((state) => state.accessToken);
+
+  useEffect(() => {
+    if (!accessToken) {
+      const showLoginAlert = () => {
+        alert('로그인이 필요합니다!');
+        navigate('/login');
+      };
+      showLoginAlert();
+    }
+  }, []); // 의존성 배열을 비워서 마운트 시 한 번만 실행
 
   const handleSubmit = (data: { title: string; content: string }) => {
     console.log('Form submitted:', data);
