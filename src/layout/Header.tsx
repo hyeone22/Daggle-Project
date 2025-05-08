@@ -150,7 +150,7 @@ function Header() {
               <img
                 src={Profile}
                 alt="profile logo"
-                className="w-6 h-6 cursor-pointer"
+                className="w-6 h-6 cursor-pointer mobile:hidden"
                 onClick={toggleDropdown}
               />
               {isDropdown && (
