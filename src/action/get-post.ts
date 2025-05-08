@@ -30,7 +30,7 @@ export const useBoardList = (isMobile: boolean) => {
       return undefined;
     },
     initialPageParam: 1,
-    refetchOnWindowFocus: false, // 윈도우 포커스 시 재요청 방지
+    refetchOnWindowFocus: false,
     enabled: true,
     gcTime: 0,
   });
