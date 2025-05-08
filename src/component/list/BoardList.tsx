@@ -6,12 +6,13 @@ import { useDesktopBoardList, useMobileBoardList } from '@/action/get-post';
 import { formatDate } from '@/lib/date';
 import pencil from '@/assets/pencil.svg';
 import { useNavigate } from 'react-router-dom';
+import clsx from 'clsx';
 
 function BoardList() {
   const navigate = useNavigate();
-  const [isMobile, setIsMobile] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   // 모바일/데스크탑 분기 처리
   const mobileQuery = useMobileBoardList(isMobile);
@@ -93,9 +94,13 @@ function BoardList() {
         </InfiniteScroll>
         {/* 모바일 글쓰기 버튼 */}
         <div
-          className={`fixed bottom-6 right-6 transition-opacity duration-300 ${
-            isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
-          }`}
+          className={clsx(
+            'fixed bottom-6 right-6 transition-opacity duration-300',
+            {
+              'opacity-100': isVisible,
+              'opacity-0 pointer-events-none': !isVisible,
+            }
+          )}
         >
           <button
             className="rounded-full w-14 h-14 shadow-lg bg-[#6025E1] flex justify-center items-center"
