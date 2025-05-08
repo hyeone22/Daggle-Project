@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/date';
 import pencil from '@/assets/pencil.svg';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
+import { EmptyState, ErrorState, LoadingState } from '@/utils/State';
 
 function BoardList() {
   const navigate = useNavigate();
@@ -52,9 +53,10 @@ function BoardList() {
   };
 
   if (isMobile) {
-    if (mobileQuery.isLoading) return <div>로딩중...</div>;
-    if (mobileQuery.error) return <div>에러가 발생했습니다.</div>;
-    if (!mobileQuery.data) return <div>데이터가 없습니다.</div>;
+    if (mobileQuery.isLoading) return <LoadingState />;
+    if (mobileQuery.error)
+      return <ErrorState error={mobileQuery.error as Error} />;
+    if (!mobileQuery.data) return <EmptyState />;
 
     const allItems = mobileQuery.data.pages.flatMap((page) => page.items);
 
@@ -114,9 +116,10 @@ function BoardList() {
   }
 
   // 데스크탑 뷰
-  if (desktopQuery.isLoading) return <div>로딩중...</div>;
-  if (desktopQuery.error) return <div>에러가 발생했습니다.</div>;
-  if (!desktopQuery.data) return <div>데이터가 없습니다.</div>;
+  if (desktopQuery.isLoading) return <LoadingState />;
+  if (desktopQuery.error)
+    return <ErrorState error={desktopQuery.error as Error} />;
+  if (!desktopQuery.data) return <EmptyState />;
 
   return (
     <div className="w-full relative">

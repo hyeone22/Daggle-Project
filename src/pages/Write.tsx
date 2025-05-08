@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { EmptyState, ErrorState, LoadingState } from '@/utils/State';
 
 function Write() {
   const formRef = useRef<WriteFormRef>(null);
@@ -16,7 +17,7 @@ function Write() {
   const [isFormDirty, setIsFormDirty] = useState(false);
 
   const { id } = useParams();
-  const { data: boardDetail } = useDetailBoard(id || '');
+  const { data: boardDetail, isLoading, error } = useDetailBoard(id || '');
   const isEditMode = !!id;
 
   useEffect(() => {
@@ -66,6 +67,16 @@ function Write() {
       }
     }
   };
+
+  // 로딩 상태 처리
+  if (isLoading) return <LoadingState />;
+
+  // 에러 상태 처리
+  if (error) return <ErrorState error={error as Error} />;
+
+  // 수정 모드에서 데이터가 없는 경우
+  if (isEditMode && !boardDetail) return <EmptyState />;
+
   return (
     <div className="flex flex-col items-center gap-12 w-full bg-[#F9FAFA]">
       <WriteForm

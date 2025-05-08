@@ -10,6 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import BoardHeader from '@/component/list/BoardHeader';
 import CommentSection from '@/component/comment/CommentSection';
 import CommentInput from '@/component/comment/CommentInput';
+import { EmptyState, ErrorState, LoadingState } from '@/utils/State';
 
 function BoardDetail() {
   const [commentInput, setCommentInput] = useState('');
@@ -18,10 +19,16 @@ function BoardDetail() {
   const user = useAuthStore((state) => state.user);
 
   // API 호출
-  const { data: boardDetail } = useDetailBoard(id || '');
-  const { data: commentList, isPending: isCommentLoading } = useCommentList(
-    id || ''
-  );
+  const {
+    data: boardDetail,
+    isLoading: isBoardLoading,
+    error: boardError,
+  } = useDetailBoard(id || '');
+  const {
+    data: commentList,
+    isPending: isCommentLoading,
+    error: commentError,
+  } = useCommentList(id || '');
   const { mutate: createComment } = useCommentCreate();
   const { mutate: deleteCommentMutate } = useDeleteComment();
   const { mutate: deleteBoardMutate } = useDeleteBoard();
@@ -47,7 +54,15 @@ function BoardDetail() {
     );
   };
 
-  if (!boardDetail) return null;
+  // 로딩 상태 처리
+  if (isBoardLoading) return <LoadingState />;
+
+  // 에러 상태 처리
+  if (boardError) return <ErrorState error={boardError as Error} />;
+  if (commentError) return <ErrorState error={commentError as Error} />;
+
+  // 데이터가 없는 경우
+  if (!boardDetail) return <EmptyState />;
 
   return (
     <div className="flex flex-col items-center gap-12 w-full">
