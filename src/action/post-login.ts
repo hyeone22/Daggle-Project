@@ -22,6 +22,7 @@ export const useLogin = () => {
           nickname: data.user.nickname,
           loginId: data.user.loginId,
           profileImageUrl: data.user.profileImageUrl,
+          id: data.user.id,
         }
       );
 

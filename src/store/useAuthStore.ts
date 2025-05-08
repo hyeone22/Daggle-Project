@@ -5,6 +5,7 @@ import { persist } from 'zustand/middleware';
  * 사용자 정보 인터페이스
  */
 export interface User {
+  id: string;
   nickname: string;
   loginId: string;
   profileImageUrl: string;
@@ -25,7 +26,6 @@ export interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   user: User | null;
-  isLoggedIn: boolean;
   setLogin: (tokens: Tokens, user: User) => void;
   logout: () => void;
   initializeFromStorage: () => void;
@@ -47,7 +47,6 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       refreshToken: null,
       user: null,
-      isLoggedIn: false,
 
       /**
        * 로그인 성공 시 호출되는 함수
@@ -61,7 +60,6 @@ export const useAuthStore = create<AuthState>()(
           accessToken: tokens.accessToken,
           refreshToken: tokens.refreshToken,
           user,
-          isLoggedIn: true,
         });
       },
 
@@ -74,7 +72,6 @@ export const useAuthStore = create<AuthState>()(
           accessToken: null,
           refreshToken: null,
           user: null,
-          isLoggedIn: false,
         });
       },
 
@@ -94,7 +91,6 @@ export const useAuthStore = create<AuthState>()(
               accessToken,
               refreshToken,
               user,
-              isLoggedIn: true,
             });
           } catch {
             // 사용자 데이터 파싱 실패 시 해당 항목 삭제
