@@ -24,6 +24,11 @@ export const useDeleteComment = () => {
       queryClient.invalidateQueries({
         queryKey: ['boardDetail', variables.postId],
       });
+      // 게시글 목록도 갱신하여 댓글 수 업데이트 (데스크톱/모바일)
+      queryClient.invalidateQueries({
+        queryKey: ['boardList'],
+        exact: false,
+      });
     },
     onError: (error) => {
       console.error('댓글 삭제 오류', error);

@@ -17,6 +17,7 @@ export const useCommentCreate = () => {
       });
       queryClient.invalidateQueries({
         queryKey: ['boardList'],
+        exact: false,
       });
     },
     onError: (error) => {
