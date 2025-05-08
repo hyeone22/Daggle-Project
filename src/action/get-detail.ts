@@ -6,5 +6,6 @@ export const useDetailBoard = (id: string) => {
   return useQuery<CreatePostResponse>({
     queryKey: ['boardDetail', id],
     queryFn: () => getBoardDetail(id),
+    enabled: !!id,
   });
 };

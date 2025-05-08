@@ -57,7 +57,9 @@ const SlideMenu = ({
   toggleMenu: () => void;
 }) => {
   const navigate = useNavigate();
-  const { isLoggedIn, user } = useAuthStore();
+  const { user } = useAuthStore();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isLoggedIn = !!accessToken;
   const { mutate: logout } = useLogout();
 
   const handleLogin = () => {
@@ -140,12 +142,15 @@ function Header() {
   const [isDropdown, setIsDropdown] = useState<boolean>(false);
   const isMobile = useMediaQuery('(max-width: 640px)');
   const location = useLocation();
+  const navigate = useNavigate();
   const isHome = location.pathname === '/';
   const isLogin = location.pathname === '/login';
 
   const isMobileHeaderVisible = isHome || isLogin;
 
-  const { isLoggedIn, user } = useAuthStore();
+  const { user } = useAuthStore();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isLoggedIn = !!accessToken;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -159,6 +164,12 @@ function Header() {
 
   const handleClick = () => {
     setIsDropdown((prev) => !prev);
+  };
+
+  const handleLogoClick = () => {
+    if (!isHome) {
+      navigate('/'); // /로 이동
+    }
   };
 
   return (
@@ -180,6 +191,7 @@ function Header() {
               src={Logo}
               className="h-10 w-16 cursor-pointer mobile:hidden tablet:block desktop:block"
               alt="Daggle Logo"
+              onClick={handleLogoClick}
             />
             {(isHome || isLogin) && <MobileMenu toggleMenu={toggleMenu} />}
           </div>

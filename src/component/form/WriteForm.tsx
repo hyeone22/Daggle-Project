@@ -1,10 +1,12 @@
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ChevronLeft } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { forwardRef, useImperativeHandle } from 'react';
+import { useForm, UseFormReturn } from 'react-hook-form';
+import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useWriteBoard } from '@/action/post-write';
+import { useDetailBoard } from '@/action/get-detail';
 
 interface FormData {
   title: string;
@@ -13,38 +15,84 @@ interface FormData {
 
 interface WriteFormProps {
   onSubmit: (data: FormData) => void;
+  onDirtyChange?: (isDirty: boolean) => void;
 }
 
 export interface WriteFormRef {
+  setValue: (
+    field: keyof FormData,
+    value: string,
+    options?: { shouldDirty?: boolean }
+  ) => void;
   trigger: () => Promise<boolean>;
   getValues: () => FormData;
+  formState: UseFormReturn<any>['formState'];
 }
 
 const WriteForm = forwardRef<WriteFormRef, WriteFormProps>(
-  ({ onSubmit }, ref) => {
+  ({ onSubmit, onDirtyChange }, ref) => {
+    const { id } = useParams(); // Write.tsx에서 넘겨줘도 됨
+    const { data: boardDetail } = useDetailBoard(id || '');
     const {
       register,
       watch,
       formState: { errors, isDirty },
       trigger,
       getValues,
+      setValue,
+      reset,
+      formState,
     } = useForm<FormData>({
       mode: 'onChange',
+      defaultValues: boardDetail
+        ? {
+            title: boardDetail.title,
+            content: boardDetail.content,
+          }
+        : {
+            title: '',
+            content: '',
+          },
     });
+
+    useEffect(() => {
+      if (boardDetail) {
+        reset(
+          {
+            title: boardDetail.title,
+            content: boardDetail.content,
+          },
+          { keepDirty: false }
+        );
+      }
+    }, [boardDetail, reset]);
+
     const navigate = useNavigate();
+    const { mutate: writePost } = useWriteBoard();
     useImperativeHandle(ref, () => ({
       trigger,
       getValues,
+      setValue,
+      formState,
     }));
 
     const title = watch('title');
     const content = watch('content');
     const isValid = title?.length >= 1 && content?.length >= 5;
 
+    useEffect(() => {
+      onDirtyChange?.(isDirty);
+    }, [isDirty, title, content, onDirtyChange]);
+
     const handleSubmit = async () => {
       const isValid = await trigger();
       if (isValid) {
-        onSubmit(getValues());
+        const formData = getValues();
+
+        writePost({
+          title: formData.title,
+          content: formData.content,
+        });
       }
     };
 
@@ -62,7 +110,7 @@ const WriteForm = forwardRef<WriteFormRef, WriteFormProps>(
                   게시글 작성
                 </h3>
               </div>
-              <span
+              <button
                 className={clsx(
                   'text-base font-bold',
                   'mobile:block hidden',
@@ -71,7 +119,7 @@ const WriteForm = forwardRef<WriteFormRef, WriteFormProps>(
                 onClick={handleSubmit}
               >
                 등록
-              </span>
+              </button>
             </div>
             <div className="flex flex-col gap-4">
               <div className="space-y-2">

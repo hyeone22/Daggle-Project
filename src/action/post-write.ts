@@ -15,17 +15,6 @@ import { useNavigate } from 'react-router-dom';
  * @property {boolean} isSuccess - 요청 성공 여부
  * @property {boolean} isError - 요청 실패 여부
  * @property {Error} error - 발생한 에러 객체
- *
- * @example
- * ```tsx
- * const { mutate: writeBoard, isPending } = useWriteBoard();
- *
- * // 게시글 작성 요청
- * writeBoard({ title: '제목', content: '내용' });
- *
- * // 로딩 상태에 따른 UI 처리
- * {isPending ? '등록 중...' : '등록하기'}
- * ```
  */
 export const useWriteBoard = () => {
   const navigate = useNavigate();
