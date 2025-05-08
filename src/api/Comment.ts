@@ -1,4 +1,4 @@
-import { Comment, CommentListResponse } from '@/interface/Comment';
+import { Comment, CommentListResponse } from '@/interface/api/Comment';
 import { useAuthStore } from '@/store/useAuthStore';
 
 /**

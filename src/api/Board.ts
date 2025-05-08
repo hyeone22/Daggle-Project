@@ -2,7 +2,7 @@ import {
   BoardListResponse,
   CreatePostRequest,
   CreatePostResponse,
-} from '@/interface/BoardInterface';
+} from '@/interface/api/BoardInterface';
 import { useAuthStore } from '@/store/useAuthStore';
 
 /**

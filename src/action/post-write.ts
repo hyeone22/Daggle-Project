@@ -2,7 +2,7 @@ import { postBoardWrite } from '@/api/Board';
 import {
   CreatePostRequest,
   CreatePostResponse,
-} from '@/interface/BoardInterface';
+} from '@/interface/api/BoardInterface';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 

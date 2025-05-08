@@ -1,5 +1,5 @@
 import { patchBoard } from '@/api/Board';
-import { CreatePostRequest } from '@/interface/BoardInterface';
+import { CreatePostRequest } from '@/interface/api/BoardInterface';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 

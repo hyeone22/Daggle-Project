@@ -1,4 +1,4 @@
-import { LoginRequest, LoginResponse } from '@/interface/AuthInterface';
+import { LoginRequest, LoginResponse } from '@/interface/api/AuthInterface';
 import { useAuthStore } from '@/store/useAuthStore';
 
 /**
