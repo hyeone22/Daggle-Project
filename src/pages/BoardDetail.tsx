@@ -81,6 +81,7 @@ function BoardDetail() {
             isLoading={isCommentLoading}
             currentUserId={user?.id || ''}
             onDeleteComment={handleDeleteComment}
+            postId={boardDetail.id}
           />
 
           <CommentInput

@@ -23,7 +23,7 @@ function BoardHeader({
           <span>|</span>
           <p>{formatDate(createdAt)}</p>
           {isAuthor && (
-            <div className="flex ml-auto gap-1 text-[#A7A9B4] mobile:text-xs">
+            <div className="flex ml-auto gap-1 text-[#A7A9B4] mobile:text-sm">
               <button className="hover:underline" onClick={onEdit}>
                 수정
               </button>

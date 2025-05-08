@@ -13,6 +13,7 @@ export interface CommentSectionProps {
   isLoading: boolean;
   currentUserId: string;
   onDeleteComment: (commentId: string) => void;
+  postId: string;
 }
 
 export interface CommentInputProps {
