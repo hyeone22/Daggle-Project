@@ -1,3 +1,4 @@
+import { useDeleteBoard } from '@/action/delete-board';
 import { useDeleteComment } from '@/action/delete-comment';
 import { useCommentList } from '@/action/get-comment';
 import { useDetailBoard } from '@/action/get-detail';
@@ -35,6 +36,17 @@ function BoardDetail() {
     if (window.confirm('정말 이 댓글을 삭제하시겠습니까?')) {
       deleteCommentMutate({ postId: boardDetail?.id || '', commentId });
     }
+  };
+
+  const { mutate: deleteBoardMutate } = useDeleteBoard();
+
+  const handleDeleteBoardClick = () => {
+    if (window.confirm('정말 이 게시글을 삭제하시겠습니까?')) {
+      deleteBoardMutate(boardDetail?.id || '');
+    }
+  };
+  const handleEditBoardClick = () => {
+    navigate(`/write/${boardDetail?.id}`);
   };
 
   useEffect(() => {
@@ -82,6 +94,23 @@ function BoardDetail() {
               <span>|</span>
               {boardDetail?.createdAt && (
                 <p>{formatDate(boardDetail.createdAt)}</p>
+              )}
+              {isAuthor(boardDetail?.author.id || '') && (
+                <div className="flex ml-auto gap-1 text-[#A7A9B4] mobile:text-xs">
+                  <button
+                    className="hover:underline"
+                    onClick={handleEditBoardClick}
+                  >
+                    수정
+                  </button>
+                  <span>|</span>
+                  <button
+                    className="hover:underline"
+                    onClick={handleDeleteBoardClick}
+                  >
+                    삭제
+                  </button>
+                </div>
               )}
             </div>
           </div>

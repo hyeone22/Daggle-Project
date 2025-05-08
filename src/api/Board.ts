@@ -24,9 +24,14 @@ export const getBoardList = async (
   page: number = 1,
   limit: number = 10
 ): Promise<BoardListResponse> => {
+  const accessToken = useAuthStore.getState().accessToken;
   const response = await fetch(
     `https://api.daggle.io/api/posts?page=${page}&limit=${limit}`,
-    {}
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // 로그인 토큰
+      },
+    }
   );
 
   if (!response.ok) {
@@ -42,23 +47,16 @@ export const getBoardList = async (
  * @param data - 생성할 게시글의 제목과 내용
  * @returns 생성된 게시글 정보를 포함한 응답 객체
  * @throws {Error} API 요청이 실패한 경우 에러를 발생시킵니다.
- *
- * @example
- * ```ts
- * const newPost = await postBoardWrite({
- *   title: '제목',
- *   content: '내용'
- * });
- * console.log(newPost); // 생성된 게시글 정보
- * ```
  */
 export const postBoardWrite = async (
   data: CreatePostRequest
 ): Promise<CreatePostResponse> => {
+  const accessToken = useAuthStore.getState().accessToken;
   const response = await fetch(`https://api.daggle.io/api/posts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(data),
   });
@@ -85,6 +83,7 @@ export const getBoardDetail = async (
   const accessToken = useAuthStore.getState().accessToken;
   const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
@@ -94,4 +93,54 @@ export const getBoardDetail = async (
   }
 
   return response.json();
+};
+
+/**
+ * 특정 게시글을 수정합니다.
+ *
+ * @param data - 수정할 게시글의 제목과 내용
+ * @param id - 수정할 게시글의 ID
+ * @returns Promise<CreatePostResponse> - 수정된 게시글 정보
+ * @throws {Error} API 요청이 실패한 경우 에러를 발생시킵니다.
+ *
+ */
+export const patchBoard = async (data: CreatePostRequest, id: string) => {
+  const accessToken = useAuthStore.getState().accessToken;
+  const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error('게시글 수정에 실패했습니다.');
+  }
+  const result: CreatePostResponse = await response.json();
+  return result;
+};
+
+/**
+ * 특정 게시글을 삭제합니다.
+ *
+ * @param id - 삭제할 게시글의 ID
+ * @returns Promise<void>
+ * @throws {Error} API 요청이 실패한 경우 에러를 발생시킵니다.
+ *
+ */
+
+export const deleteBoard = async (id: string) => {
+  const accessToken = useAuthStore.getState().accessToken;
+  const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error('게시글 삭제에 실패했습니다.');
+  }
+  return;
 };

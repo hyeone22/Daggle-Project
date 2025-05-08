@@ -34,6 +34,12 @@ const router = createBrowserRouter([
         element: <Write />,
         errorElement: '',
       },
+      {
+        // 글 수정 페이지
+        path: '/write/:id',
+        element: <Write />,
+        errorElement: '',
+      },
     ],
   },
 ]);
