@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/store/useAuthStore';
 
-const BASE_URL = 'https://api.daggle.io/api';
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://api.daggle.io/api';
 
 interface FetchOptions extends RequestInit {
   token?: string;
