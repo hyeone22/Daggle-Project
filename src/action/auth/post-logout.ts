@@ -1,14 +1,18 @@
 import { postLogout } from '@/api/Auth';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export const useLogout = () => {
+  const queryClient = useQueryClient();
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
   return useMutation({
     mutationFn: postLogout,
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['boardList'],
+      });
       logout();
       navigate('/');
     },
