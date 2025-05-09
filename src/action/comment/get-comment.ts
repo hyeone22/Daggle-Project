@@ -1,5 +1,5 @@
 import { getCommentList } from '@/api/Comment';
-import { CommentListResponse } from '@/interface/Comment';
+import { CommentListResponse } from '@/interface/api/Comment';
 import { useQuery } from '@tanstack/react-query';
 
 export const useCommentList = (postId: string) => {

@@ -1,5 +1,5 @@
 import { postLogin } from '@/api/Auth';
-import { LoginRequest, LoginResponse } from '@/interface/AuthInterface';
+import { LoginRequest, LoginResponse } from '@/interface/api/AuthInterface';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';

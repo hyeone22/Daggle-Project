@@ -1,5 +1,5 @@
-import { Comment, CommentListResponse } from '@/interface/Comment';
-import { useAuthStore } from '@/store/useAuthStore';
+import { Comment, CommentListResponse } from '@/interface/api/Comment';
+import { get, post, patch, del } from '@/lib/client';
 
 /**
  * 게시글의 댓글 목록을 조회합니다.
@@ -12,20 +12,12 @@ import { useAuthStore } from '@/store/useAuthStore';
 export const getCommentList = async (
   postId: string
 ): Promise<CommentListResponse> => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(
-    `https://api.daggle.io/api/posts/${postId}/comments`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const response = await get(`/posts/${postId}/comments`);
   if (!response.ok) {
     throw new Error('댓글 목록을 불러오는데 실패했습니다.');
   }
-
-  return response.json();
+  const data: CommentListResponse = await response.json();
+  return data;
 };
 
 /**
@@ -41,18 +33,7 @@ export const postCreateComment = async (
   postId: string,
   content: string
 ): Promise<Comment> => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(
-    `https://api.daggle.io/api/posts/${postId}/comments`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ content }),
-    }
-  );
+  const response = await post(`/posts/${postId}/comments`, { content });
   if (!response.ok) {
     throw new Error('댓글 등록에 실패하였습니다.');
   }
@@ -65,18 +46,9 @@ export const patchEditComment = async (
   commentId: string,
   content: string
 ): Promise<Comment> => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(
-    `https://api.daggle.io/api/posts/${postId}/comments/${commentId}`,
-    {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ content }),
-    }
-  );
+  const response = await patch(`/posts/${postId}/comments/${commentId}`, {
+    content,
+  });
   if (!response.ok) {
     throw new Error('댓글 수정에 실패하였습니다.');
   }
@@ -84,21 +56,12 @@ export const patchEditComment = async (
   return result;
 };
 
-export const deleteComment = async (postId: string, commentId: string) => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(
-    `https://api.daggle.io/api/posts/${postId}/comments/${commentId}`,
-    {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+export const deleteComment = async (
+  postId: string,
+  commentId: string
+): Promise<void> => {
+  const response = await del(`/posts/${postId}/comments/${commentId}`);
   if (!response.ok) {
     throw new Error('댓글 삭제에 실패하였습니다.');
   }
-
-  return;
 };

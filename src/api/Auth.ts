@@ -1,5 +1,10 @@
-import { LoginRequest, LoginResponse } from '@/interface/AuthInterface';
-import { useAuthStore } from '@/store/useAuthStore';
+import {
+  LoginRequest,
+  LoginResponse,
+  RefreshTokenRequest,
+} from '@/interface/api/AuthInterface';
+import { Tokens, useAuthStore } from '@/store/useAuthStore';
+import { post } from '@/lib/client';
 
 /**
  * 로그인 API를 호출하는 함수
@@ -13,15 +18,8 @@ import { useAuthStore } from '@/store/useAuthStore';
  *
  * @throws {Error} 로그인 실패 시 에러 발생
  */
-
 export const postLogin = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await fetch('https://api.daggle.io/api/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
+  const response = await post('/auth/login', data);
   if (!response.ok) {
     throw new Error('로그인에 실패했습니다.');
   }
@@ -37,18 +35,38 @@ export const postLogin = async (data: LoginRequest): Promise<LoginResponse> => {
  *
  * @throws {Error} 로그아웃 실패 시 에러를 발생시킵니다.
  */
-export const postLogout = async () => {
+export const postLogout = async (): Promise<void> => {
   const refreshToken = useAuthStore.getState().refreshToken;
-  const response = await fetch('https://api.daggle.io/api/auth/logout', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ refreshToken }),
-  });
+  const response = await post('/auth/logout', { refreshToken });
   if (!response.ok) {
     throw new Error('로그아웃에 실패했습니다.');
   }
-
   useAuthStore.getState().logout();
+};
+
+/**
+ * 토큰을 갱신하는 함수
+ *
+ * 현재 저장된 refreshToken을 사용하여 새로운 accessToken과 refreshToken을 발급받습니다.
+ *
+ * @returns {Promise<Tokens>} 새로 발급받은 토큰 정보
+ * @throws {Error} 토큰 갱신 실패 시 에러를 발생시킵니다.
+ */
+export const postToken = async (): Promise<Tokens> => {
+  const refreshToken = useAuthStore.getState().refreshToken;
+  if (!refreshToken) {
+    throw new Error('리프레시 토큰이 없습니다.');
+  }
+
+  const request: RefreshTokenRequest = {
+    refreshToken,
+  };
+
+  const response = await post('/auth/refresh', request);
+  if (!response.ok) {
+    throw new Error('토큰 갱신에 실패했습니다.');
+  }
+
+  const data: Tokens = await response.json();
+  return data;
 };

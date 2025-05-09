@@ -20,6 +20,15 @@ export const useEditComment = () => {
       queryClient.invalidateQueries({
         queryKey: ['commentList', variables.postId],
       });
+      // 게시글 상세 정보 갱신
+      queryClient.invalidateQueries({
+        queryKey: ['boardDetail', variables.postId],
+      });
+      // 게시글 목록 갱신
+      queryClient.invalidateQueries({
+        queryKey: ['boardList'],
+        exact: false,
+      });
     },
   });
 };

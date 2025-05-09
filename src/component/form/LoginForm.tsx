@@ -1,4 +1,4 @@
-import { useLogin } from '@/action/post-login';
+import { useLogin } from '@/action/auth/post-login';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import clsx from 'clsx';
