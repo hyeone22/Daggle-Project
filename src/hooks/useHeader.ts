@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/useAuthStore';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { useLogout } from '@/action/post-logout';
+import { useLogout } from '@/action/auth/post-logout';
 
 export const useHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

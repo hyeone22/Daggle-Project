@@ -1,6 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
 import { formatDate } from '@/lib/date';
-import { BoardHeaderProps } from '@/interface/api/item/BoardItem';
+import { BoardHeaderProps } from '@/interface/item/BoardItem';
 
 function BoardHeader({
   title,

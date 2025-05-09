@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Pagination from '@/components/ui/pagination';
 import Comment from '@/assets/comment.svg';
-import { useDesktopBoardList, useMobileBoardList } from '@/action/get-post';
+import {
+  useDesktopBoardList,
+  useMobileBoardList,
+} from '@/action/board/get-post';
 import { formatDate } from '@/lib/date';
 import pencil from '@/assets/pencil.svg';
 import { useNavigate } from 'react-router-dom';

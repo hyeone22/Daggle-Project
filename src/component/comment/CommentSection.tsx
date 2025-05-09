@@ -1,10 +1,10 @@
-import { CommentSectionProps } from '@/interface/api/item/CommentItem';
+import { CommentSectionProps } from '@/interface/item/CommentItem';
 import { formatDate } from '@/lib/date';
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useEditComment } from '@/action/patch-comment';
+import { useEditComment } from '@/action/comment/patch-comment';
 
 function CommentSection({
   comments,

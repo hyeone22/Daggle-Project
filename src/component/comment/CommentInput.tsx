@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { CommentInputProps } from '@/interface/api/item/CommentItem';
+import { CommentInputProps } from '@/interface/item/CommentItem';
 
 function CommentInput({ value, onChange, onSubmit }: CommentInputProps) {
   return (

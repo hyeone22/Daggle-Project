@@ -1,6 +1,6 @@
-import { useDetailBoard } from '@/action/get-detail';
-import { usePatchBoard } from '@/action/patch-board';
-import { useWriteBoard } from '@/action/post-write';
+import { useDetailBoard } from '@/action/board/get-detail';
+import { usePatchBoard } from '@/action/board/patch-board';
+import { useWriteBoard } from '@/action/board/post-write';
 import WriteForm from '@/component/form/WriteForm';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect } from 'react';

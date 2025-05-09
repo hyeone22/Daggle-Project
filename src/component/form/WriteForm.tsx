@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
-import { FormData, WriteFormProps } from '@/interface/api/item/WriteItem';
+import { FormData, WriteFormProps } from '@/interface/item/WriteItem';
 
 function WriteForm({
   defaultValues,

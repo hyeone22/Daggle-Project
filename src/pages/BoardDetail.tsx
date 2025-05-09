@@ -1,8 +1,8 @@
-import { useDeleteBoard } from '@/action/delete-board';
-import { useDeleteComment } from '@/action/delete-comment';
-import { useCommentList } from '@/action/get-comment';
-import { useDetailBoard } from '@/action/get-detail';
-import { useCommentCreate } from '@/action/post-comment';
+import { useDeleteBoard } from '@/action/board/delete-board';
+import { useDeleteComment } from '@/action/comment/delete-comment';
+import { useCommentList } from '@/action/comment/get-comment';
+import { useDetailBoard } from '@/action/board/get-detail';
+import { useCommentCreate } from '@/action/comment/post-comment';
 import Comment from '@/assets/comment.svg';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useState } from 'react';
