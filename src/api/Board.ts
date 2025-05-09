@@ -3,7 +3,7 @@ import {
   CreatePostRequest,
   CreatePostResponse,
 } from '@/interface/api/BoardInterface';
-import { useAuthStore } from '@/store/useAuthStore';
+import { get, post, patch, del } from '@/lib/client';
 
 /**
  * 게시글 목록을 조회하는 API 함수
@@ -24,21 +24,12 @@ export const getBoardList = async (
   page: number = 1,
   limit: number = 10
 ): Promise<BoardListResponse> => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(
-    `https://api.daggle.io/api/posts?page=${page}&limit=${limit}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`, // 로그인 토큰
-      },
-    }
-  );
-
+  const response = await get(`/posts?page=${page}&limit=${limit}`);
   if (!response.ok) {
     throw new Error('게시글 목록을 불러오는데 실패했습니다.');
   }
-
-  return response.json();
+  const data: BoardListResponse = await response.json();
+  return data;
 };
 
 /**
@@ -51,19 +42,10 @@ export const getBoardList = async (
 export const postBoardWrite = async (
   data: CreatePostRequest
 ): Promise<CreatePostResponse> => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(`https://api.daggle.io/api/posts`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const response = await post('/posts', data);
   if (!response.ok) {
     throw new Error('게시글 생성에 실패했습니다.');
   }
-
   const result: CreatePostResponse = await response.json();
   return result;
 };
@@ -80,19 +62,12 @@ export const postBoardWrite = async (
 export const getBoardDetail = async (
   id: string
 ): Promise<CreatePostResponse> => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
+  const response = await get(`/posts/${id}`);
   if (!response.ok) {
     throw new Error('게시글 상세 정보를 불러오는데 실패했습니다.');
   }
-
-  return response.json();
+  const data: CreatePostResponse = await response.json();
+  return data;
 };
 
 /**
@@ -104,16 +79,11 @@ export const getBoardDetail = async (
  * @throws {Error} API 요청이 실패한 경우 에러를 발생시킵니다.
  *
  */
-export const patchBoard = async (data: CreatePostRequest, id: string) => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify(data),
-  });
+export const patchBoard = async (
+  data: CreatePostRequest,
+  id: string
+): Promise<CreatePostResponse> => {
+  const response = await patch(`/posts/${id}`, data);
   if (!response.ok) {
     throw new Error('게시글 수정에 실패했습니다.');
   }
@@ -130,17 +100,9 @@ export const patchBoard = async (data: CreatePostRequest, id: string) => {
  *
  */
 
-export const deleteBoard = async (id: string) => {
-  const accessToken = useAuthStore.getState().accessToken;
-  const response = await fetch(`https://api.daggle.io/api/posts/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+export const deleteBoard = async (id: string): Promise<void> => {
+  const response = await del(`/posts/${id}`);
   if (!response.ok) {
     throw new Error('게시글 삭제에 실패했습니다.');
   }
-  return;
 };

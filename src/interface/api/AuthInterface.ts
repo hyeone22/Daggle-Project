@@ -23,3 +23,7 @@ export interface LoginResponse {
   user: User;
   tokens: Tokens;
 }
+
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
