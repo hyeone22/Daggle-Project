@@ -117,5 +117,5 @@ npm run dev
 
 프로젝트와 관련된 추가 문서는 아래 링크에서 확인할 수 있습니다.
 
-- [프로젝트 이슈 관리](https://jagged-tang-bdd.notion.site/1edda43512c980c0a09fc5410720139e)
+- [게시글 목록 작성자 표시 이슈](https://jagged-tang-bdd.notion.site/1edda43512c980c0a09fc5410720139e)
 - [댓글 수 불일치 이슈](https://jagged-tang-bdd.notion.site/commentCount-1edda43512c98091a742c973d0dba497)
