@@ -10,7 +10,7 @@ export const useLogin = () => {
   return useMutation<LoginResponse, Error, LoginRequest>({
     mutationFn: postLogin,
     onSuccess: (data) => {
-      console.log('로그인 성공', data);
+      // console.log('로그인 성공', data);
 
       // Zustand store에 로그인 정보 저장
       setLogin(
