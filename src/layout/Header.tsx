@@ -97,7 +97,6 @@ function Header() {
   const {
     isOpen,
     isDropdown,
-    isMobile,
     isHome,
     isLogin,
     isMobileHeaderVisible,
